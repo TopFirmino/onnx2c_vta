@@ -437,6 +437,7 @@ int64_t Graph::onnx_ir_version(void)
 #include "nodes/upsample.h"
 #include "nodes/where.h"
 
+#include "nodes/vtanode.h"
 #include "nodes/topk.h"
 #include "nodes/tile.h"
 #include "nodes/gatherelements.h"
@@ -565,6 +566,8 @@ Node* Graph::createNode(const onnx::NodeProto& onnx_node)
 	if (opName == "Where") return new Where;
 	if (opName == "Xor") return new Elementwise_2("Xor");
 
+	if (opName == "VTANode") return new VTANode;
+	if (opName == "VTAExtract") return new VTAExtract;
 	if (opName == "TopK") return new TopK;
 	if (opName == "Tile") return new Tile;
 	if (opName == "GatherElements") return new GatherElements;
