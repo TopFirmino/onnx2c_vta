@@ -23,8 +23,13 @@ class MaxPool : public Pooling {
 		Pooling::parseAttributes(node);
 
 		for (const auto& a : node.attribute()) {
-			if (a.name() == "storage_order")
-				ERROR("Unimplemented: MaxPool storage_order attribute");
+			if (a.name() == "storage_order") {
+				int storage_order = parse_attribute_int(a);
+				if (storage_order != 0) {
+					ERROR("Unimplemented: MaxPool storage_order attribute");
+				}
+			}
+			
 		}
 	}
 
