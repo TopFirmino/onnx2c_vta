@@ -211,11 +211,27 @@ void Reduce::resolve(void)
 		if (!keepdims) {
 			// ERROR("Reduce with keepdims=0 not implemented yet");
 			std::vector<int> new_shape;
-			for (int dim_size : t->data_dim) {
-				if (dim_size != 1) {
-					new_shape.push_back(dim_size);
+			/////////////////// OLD CODE ///////////////////
+			// for (int dim_size : t->data_dim) {
+			// 	if (dim_size != 1) {
+			// 		new_shape.push_back(dim_size);
+			// 	}
+			// }
+			/////////////////// NEW CODE ///////////////////
+			for (size_t i = 0; i < t->data_dim.size(); i++) {
+				bool reduce = false;
+				for (size_t axis : norm_axes) {
+					if (i == axis) {
+						reduce = true;
+						break;
+					}
+				}
+				if (!reduce) {
+					new_shape.push_back(input->data_dim[i]);
 				}
 			}
+			
+
 			// If all dimensions were reduced, output is a scalar
 			if (new_shape.empty()) {
 				new_shape.push_back(1);
